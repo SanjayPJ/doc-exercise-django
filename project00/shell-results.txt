@@ -1,0 +1,144 @@
+(django_env) λ python manage.py shell
+Python 3.7.0 (default, Jun 28 2018, 08:04:48) [MSC v.1912 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from news.models import Articles, Reporter
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ImportError: cannot import name 'Articles' from 'news.models' (C:\Users\cheshire\Desktop\docfiles-django\project00\news\models.py)
+>>> from news.models import Article, Reporter
+>>> Reporter.objects.all()
+<QuerySet []>
+>>> Reporter(full_name="Sanjay PJ")
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.all()
+<QuerySet []>
+>>> reporter01 = Reporter(full_name="Sanjay PJ")
+>>> reporter01.save()
+>>> r = reporter01
+>>> r.pk
+1
+>>> r.id
+1
+>>> r.id
+1
+>>> r.id
+1
+>>> Reporter.objects.all()
+<QuerySet [<Reporter: Sanjay PJ>]>
+>>> r.full_name
+'Sanjay PJ'
+>>> Reporter.objects.get(id=1)
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.get(full_name="Sanjay Pj")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 399, in get
+    self.model._meta.object_name
+news.models.Reporter.DoesNotExist: Reporter matching query does not exist.
+>>> Reporter.objects.get(full_name="Sanjay PJ")
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.get(full_name__startswith="Sanjay")
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.get(full_name__endswith="PJ")
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.get(full_name__containses="anjay")
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 390, in get
+    clone = self.filter(*args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1225, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1090, in build_lookup
+    lhs = self.try_transform(lhs, lookup_name)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1126, in try_transform
+    (name, lhs.output_field.__class__.__name__))
+django.core.exceptions.FieldError: Unsupported lookup 'containses' for CharField or join on the field not permitted.
+>>> Reporter.objects.get(full_name__contains="anjay")
+<Reporter: Sanjay PJ>
+>>> Reporter.objects.get(id=2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 399, in get
+    self.model._meta.object_name
+news.models.Reporter.DoesNotExist: Reporter matching query does not exist.
+>>> from datetime import date
+>>> a = Article(pub_date=date.today(), headline="Django is super cool", content="i just like the way it works thats it", reporter=r)
+>>> a.save()
+>>> Article.objects.all()
+<QuerySet [<Article: Django is super cool>]>
+>>> Reporter.objects.all()
+<QuerySet [<Reporter: Sanjay PJ>]>
+>>> Reporter.objects.all().filter(id=1)
+<QuerySet [<Reporter: Sanjay PJ>]>
+>>> Article.objects.filter(id=1)
+<QuerySet [<Article: Django is super cool>]>
+>>> r.full_name = "Athulya Raj"
+>>> r.full_name="Sanjay PJ"
+>>> r.article_set.all()
+<QuerySet [<Article: Django is super cool>]>
+>>> Articles.objects.filter(repoter=r)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Articles' is not defined
+>>> Article.objects.filter(repoter=r)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "C:\Users\cheshire\Anaconda3\envs\django_env\lib\site-packages\django\db\models\sql\query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'repoter' into field. Choices are: content, headline, id, pub_date, reporter, reporter_id
+>>> Article.objects.filter(reporter=r)
+<QuerySet [<Article: Django is super cool>]>
+>>> Article.objects.filter(reporter__full_name__startswith="Sanjay")
+<QuerySet [<Article: Django is super cool>]>
+>>> Article.objects.filter(reporter__full_name="Sanjay PJ")
+<QuerySet [<Article: Django is super cool>]>
+>>> r.full_name = "Athulya Raj"
+>>> r.save()
+>>> Reporter.objects.all()
+<QuerySet [<Reporter: Athulya Raj>]>
+>>> r.pk
+1
+>>> r,id
+(<Reporter: Athulya Raj>, <built-in function id>)
+>>> r.id
+1
+>>> Article.objects.filter(reporter__full_name="Sanjay PJ")
+<QuerySet []>
+>>> Article.objects.filter(reporter__full_name="Athulya Raj")
+<QuerySet [<Article: Django is super cool>]>
+>>> r.delete()
+(2, {'news.Article': 1, 'news.Reporter': 1})
+>>> Reporter.objects.all()
+<QuerySet []>
+>>> Article.objects.all()
+<QuerySet []>
+>>>
