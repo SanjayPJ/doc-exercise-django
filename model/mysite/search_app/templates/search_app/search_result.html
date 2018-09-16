@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mt-4 mb-5">Search Result for <b>"{{ search_text }}"</b></h3>
+
+{% for person in persons %}
+<div class="card mt-2">
+    <div class="card-body">
+        <h4>{{ person.name }}</h4>
+        <p>Age : {{ person.age }}</p>
+    </div>
+</div>
+{% empty %}
+<h6>Nothing found!</h6>
+{% endfor %}
+
+{% endblock content %}
